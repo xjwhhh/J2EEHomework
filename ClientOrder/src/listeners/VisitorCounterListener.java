@@ -1,9 +1,10 @@
 package listeners;
 
 import javax.servlet.*;
+import javax.servlet.http.*;
 import java.io.*;
 
-public class VisitorCounterListener implements ServletContextListener, ServletContextAttributeListener {
+public class VisitorCounterListener implements ServletContextListener, ServletContextAttributeListener,HttpSessionListener,HttpSessionAttributeListener {
     int allCounter;
     int loginCounter;
     int visitorCounter;
@@ -61,6 +62,7 @@ public class VisitorCounterListener implements ServletContextListener, ServletCo
     synchronized void writeCounter(ServletContextAttributeEvent event) {
         System.out.println(event.getName());
         System.out.println(event.getValue());
+        System.out.println("erite46uio");
         switch (event.getName()) {
             case "allCounter":
                 writeAllCounter(event);
@@ -79,7 +81,7 @@ public class VisitorCounterListener implements ServletContextListener, ServletCo
 
     synchronized void writeAllCounter(ServletContextAttributeEvent event) {
         ServletContext servletContext = event.getServletContext();
-        allCounter = Integer.parseInt((String) servletContext.getAttribute("allCounter"));
+        allCounter = Integer.parseInt(String.valueOf(servletContext.getAttribute("allCounter")));
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(allCounterFilePath));
             writer.write(Integer.toString(allCounter));
@@ -94,7 +96,7 @@ public class VisitorCounterListener implements ServletContextListener, ServletCo
 
     synchronized void writeLoginCounter(ServletContextAttributeEvent event) {
         ServletContext servletContext = event.getServletContext();
-        loginCounter = Integer.parseInt((String) servletContext.getAttribute("loginCounter"));
+        loginCounter = Integer.parseInt(String.valueOf(servletContext.getAttribute("loginCounter")));
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(loginCounterFilePath));
             writer.write(Integer.toString(loginCounter));
@@ -109,7 +111,7 @@ public class VisitorCounterListener implements ServletContextListener, ServletCo
 
     synchronized void writeVisitorCounter(ServletContextAttributeEvent event) {
         ServletContext servletContext = event.getServletContext();
-        visitorCounter = Integer.parseInt((String) servletContext.getAttribute("visitorCounter"));
+        visitorCounter = Integer.parseInt(String.valueOf(servletContext.getAttribute("visitorCounter")));
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(visitorCounterFilePath));
             writer.write(Integer.toString(visitorCounter));
@@ -126,4 +128,50 @@ public class VisitorCounterListener implements ServletContextListener, ServletCo
         System.out.println("Application shut down");
 
     }
+
+    public void sessionCreated(HttpSessionEvent se){
+        ServletContext context=se.getSession().getServletContext();
+        int allCounter=Integer.parseInt((String) context.getAttribute("allCounter"));
+        int visitorCounter=Integer.parseInt((String) context.getAttribute("visitorCounter"));
+        int loginCounter=Integer.parseInt((String) context.getAttribute("loginCounter"));
+        HttpSession session=se.getSession();
+
+        if(session.getAttribute("userId")!=null){
+            System.out.println("登录");
+            loginCounter++;
+            context.setAttribute("loginCounter",loginCounter);
+        }
+        else{
+            System.out.print("游客");
+            visitorCounter++;
+            context.setAttribute("visitorCounter",visitorCounter);
+        }
+        allCounter++;
+        context.setAttribute("allCounter",allCounter);
+        System.out.println("session 创建");
+    }
+    public void sessionDestroyed(HttpSessionEvent se){
+        ServletContext context=se.getSession().getServletContext();
+        int allCounter=Integer.parseInt((String) context.getAttribute("allCounter"));
+        int visitorCounter=Integer.parseInt((String) context.getAttribute("visitorCounter"));
+        int loginCounter=Integer.parseInt((String) context.getAttribute("loginCounter"));
+        HttpSession session=se.getSession();
+
+        if(session.getAttribute("userId")!=null){
+            System.out.println("登录");
+            loginCounter--;
+            context.setAttribute("loginCounter",loginCounter);
+        }
+        else{
+            System.out.print("游客");
+            visitorCounter--;
+            context.setAttribute("visitorCounter",visitorCounter);
+        }
+        allCounter--;
+        context.setAttribute("allCounter",allCounter);
+        System.out.println("session 销毁");
+    }
+    public void attributeAdded(HttpSessionBindingEvent se){}
+    public void attributeRemoved(HttpSessionBindingEvent se){}
+    public void attributeReplaced(HttpSessionBindingEvent se){}
 }

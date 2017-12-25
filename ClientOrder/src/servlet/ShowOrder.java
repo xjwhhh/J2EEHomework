@@ -35,29 +35,6 @@ public class ShowOrder extends HttpServlet {
     public ShowOrder() {
         super();
         // TODO Auto-generated constructor stub
-
-//        //驱动程序名
-//        String driver = "com.mysql.jdbc.Driver";
-//        //URL指向要访问的数据库名mydata
-//        String url = "jdbc:mysql://localhost:3306/j2eeHomework";
-//        //MySQL配置时的用户名
-//        String user = "root";
-//        //MySQL配置时的密码
-//        String password = "123456";
-//        //遍历查询结果集
-//        try {
-//            //加载驱动程序
-//            Class.forName(driver);
-//            //1.getConnection()方法，连接MySQL数据库！！
-//            con = DriverManager.getConnection(url, user, password);
-//            if (!con.isClosed()) {
-//                System.out.println("Succeeded connecting to the Database!");
-//            }
-//        } catch (ClassNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
     }
 
     public void init() {
@@ -119,11 +96,12 @@ public class ShowOrder extends HttpServlet {
         }
 
         ServletContext context=getServletContext();
-        int allCounter=Integer.parseInt((String) context.getAttribute("allCounter"));
-        int visitorCounter=Integer.parseInt((String) context.getAttribute("visitorCounter"));
-        int loginCounter=Integer.parseInt((String) context.getAttribute("loginCounter"));
+        int allCounter=Integer.parseInt(String.valueOf(context.getAttribute("allCounter")));
+        int visitorCounter=Integer.parseInt(String.valueOf(context.getAttribute("visitorCounter")));
+        int loginCounter=Integer.parseInt(String.valueOf(context.getAttribute("loginCounter")));
 
         if (session == null) {
+//            System.out.println("234567890-");
             String account = req.getParameter("account");
             String password = req.getParameter("password");
             boolean isLoginAction = (null == account) ? false : true;
@@ -158,9 +136,13 @@ public class ShowOrder extends HttpServlet {
                     session.setAttribute("userId",userId);
                     req.setAttribute("userId",userId);
                     getOrderList(req, resp);
+//                    System.out.println(1);
                     displayMyOrderListPage(req, resp);
+//                    System.out.println(2);
                     displayCounterPage(req,resp);
+//                    System.out.println(3);
                     displayLogoutPage(req, resp);
+//                    System.out.println(4);
 
                 } else {
                     System.out.println(account + " session null");
@@ -253,6 +235,7 @@ public class ShowOrder extends HttpServlet {
             con=datasource.getConnection();
             System.out.println("userId:"+req.getAttribute("userId"));
             stmt = con.prepareStatement("select id,orderTime from myOrder where userId = ?");
+            System.out.println("test");
             stmt.setString(1, String.valueOf(req.getAttribute("userId")));
             result = stmt.executeQuery();
             while (result.next()) {
@@ -261,14 +244,21 @@ public class ShowOrder extends HttpServlet {
                 order.setOrderTime(result.getString("orderTime"));
                 list.add(order);
             }
+//            System.out.println("list done");
+            System.out.println(list.size());
             for (int i = 0; i < list.size(); i++) {
+//                System.out.println("tyui");
+//                Connection connection=datasource.getConnection();
                 Order order = list.get(i);
+//                System.out.println("tyui1");
                 stmt = con.prepareStatement("select goodsId,name,price,number from orderInfo where orderId = ?");
                 stmt.setString(1, String.valueOf(order.getId()));
+//                System.out.println("tyui2");
                 result = stmt.executeQuery();
                 ArrayList<OrderRecord> records = new ArrayList<>();
-
+//                System.out.println("tyui3");
                 while (result.next()) {
+//                    System.out.println("tyui4");
                     OrderRecord record = new OrderRecord();
                     record.setGoodsId(result.getInt("goodsId"));
                     record.setName(result.getString("name"));
@@ -277,8 +267,10 @@ public class ShowOrder extends HttpServlet {
                     record.setShortSupply(checkOrder(record));
                     records.add(record);
                 }
+//                System.out.println("records done");
                 order.setRecords(records);
                 list.set(i, order);
+//                connection.close();
             }
         } catch (SQLException e) {
             // TODO Auto-generated catch block
@@ -292,9 +284,9 @@ public class ShowOrder extends HttpServlet {
     public void displayCounterPage(HttpServletRequest req,HttpServletResponse res) throws IOException{
         PrintWriter out = res.getWriter();
         ServletContext context=getServletContext();
-        int allCounter=Integer.parseInt((String) context.getAttribute("allCounter"));
-        int visitorCounter=Integer.parseInt((String) context.getAttribute("visitorCounter"));
-        int loginCounter=Integer.parseInt((String) context.getAttribute("loginCounter"));
+        int allCounter=Integer.parseInt(String.valueOf(context.getAttribute("allCounter")));
+        int visitorCounter=Integer.parseInt(String.valueOf(context.getAttribute("visitorCounter")));
+        int loginCounter=Integer.parseInt(String.valueOf(context.getAttribute("loginCounter")));
         out.println("<p>总访问数："+allCounter+"</p>");
         out.println("<p>登录访问数："+loginCounter+"</p>");
         out.println("<p>游客访问数："+visitorCounter+"</p>");
