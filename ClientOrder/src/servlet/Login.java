@@ -9,19 +9,9 @@ import java.util.Map;
 public class Login extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-
     int allCounter;
     int visitorCounter;
     int loginCounter;
-
-
-//    int allCounter;
-//    int loginCounter;
-//    int visitorCounter;
-//
-//    String allCounterFilePath = "C:\\Users\\xjwhh\\IdeaProjects_Ultimate\\J2EEHomework\\work01\\ClientOrder\\web\\file\\allCounter.txt";
-//    String loginCounterFilePath = "C:\\Users\\xjwhh\\IdeaProjects_Ultimate\\J2EEHomework\\work01\\ClientOrder\\web\\file\\loginCounter.txt";
-//    String visitorCounterFilePath = "C:\\Users\\xjwhh\\IdeaProjects_Ultimate\\J2EEHomework\\work01\\ClientOrder\\web\\file\\visitorCounter.txt";
 
     public Login() {
         super();
@@ -31,30 +21,11 @@ public class Login extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("doGet");
 
-//        try {
-//            BufferedReader reader1 = new BufferedReader(new FileReader(allCounterFilePath));
-//            allCounter = Integer.parseInt(reader1.readLine());
-//            reader1.close();
-//            System.out.println("readingAllCounter: " + allCounter);
-//            BufferedReader reader2 = new BufferedReader(new FileReader(loginCounterFilePath));
-//            loginCounter = Integer.parseInt(reader2.readLine());
-//            reader2.close();
-//            System.out.println("readingLoginCounter: " + loginCounter);
-//            BufferedReader reader3 = new BufferedReader(new FileReader(visitorCounterFilePath));
-//            visitorCounter = Integer.parseInt(reader3.readLine());
-//            reader3.close();
-//            System.out.println("readingVisitorCounter: " + visitorCounter);
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-
-        Map paraMap=request.getParameterMap();
-
+        Map paraMap = request.getParameterMap();
 
         String login = "";
-        HttpSession session = request.getSession(false);
+        HttpSession session = request.getSession(true);
+
         Cookie cookie = null;
         Cookie[] cookies = request.getCookies();
 
@@ -70,36 +41,36 @@ public class Login extends HttpServlet {
             }
         }
 
-       refreshCounter();
+        refreshCounter();
 
         // Logout action removes session, but the cookie remains
         // 注销
+        System.out.println("sdfghj" + session.getAttribute("isShowReload"));
         if (null != request.getParameter("Logout")) {
             System.out.println("destroy session");
             if (null != session) {
-                session.invalidate();
-                session = null;
-                System.out.println("111111");
+                if (session.getAttribute("isShowReload") != null && String.valueOf(session.getAttribute("isShowReload")).equals("true")) {
+
+                    session.invalidate();
+                    session = null;
+                    refreshCounter();
+                    System.out.println("Logout");
+                }
             }
-            else{
-                System.out.println("234567890");
-            }
-            refreshCounter();
-            ServletContext context=getServletContext();
-            allCounter++;
-            visitorCounter++;
-            context.setAttribute("allCounter",Integer.toString(allCounter));
-            context.setAttribute("visitorCounter",Integer.toString(visitorCounter));
-            System.out.println("Logout");
         }
 
-
-      refreshCounter();
+        refreshCounter();
 
         //普通登录
-        if(!paraMap.containsKey("reLogin")){
+        if (!paraMap.containsKey("reLogin")) {
+            System.out.println("普通登录");
+            session = request.getSession(true);
+            session.setAttribute("isShowReload", "false");
+
             System.out.println("Login");
         }
+
+        refreshCounter();
 
         response.setContentType("text/html;charset=utf-8");
         PrintWriter out = response.getWriter();
@@ -116,9 +87,9 @@ public class Login extends HttpServlet {
         out.println("<input type='submit' name='Submit' value='Submit'>");
 
         out.println("</form>");
-        out.println("<p>总访问数："+allCounter+"</p>");
-        out.println("<p>登录访问数："+loginCounter+"</p>");
-        out.println("<p>游客访问数："+visitorCounter+"</p>");
+        out.println("<p>总访问数：" + allCounter + "</p>");
+        out.println("<p>登录访问数：" + loginCounter + "</p>");
+        out.println("<p>游客访问数：" + visitorCounter + "</p>");
         out.println("</body></html>");
     }
 
@@ -126,15 +97,15 @@ public class Login extends HttpServlet {
 
     }
 
-    private void refreshCounter(){
-        ServletContext context=getServletContext();
-        allCounter=Integer.parseInt(String.valueOf(context.getAttribute("allCounter")));
-        visitorCounter=Integer.parseInt(String.valueOf(context.getAttribute("visitorCounter")));
-        loginCounter=Integer.parseInt(String.valueOf(context.getAttribute("loginCounter")));
+    private void refreshCounter() {
+        ServletContext context = getServletContext();
+        allCounter = Integer.parseInt(String.valueOf(context.getAttribute("allCounter")));
+        visitorCounter = Integer.parseInt(String.valueOf(context.getAttribute("visitorCounter")));
+        loginCounter = Integer.parseInt(String.valueOf(context.getAttribute("loginCounter")));
 
-        System.out.println("allCounter:"+allCounter);
-        System.out.println("loginCounter:"+loginCounter);
-        System.out.println("visitorCounter:"+visitorCounter);
+        System.out.println("allCounter:" + allCounter);
+        System.out.println("loginCounter:" + loginCounter);
+        System.out.println("visitorCounter:" + visitorCounter);
     }
 
 }

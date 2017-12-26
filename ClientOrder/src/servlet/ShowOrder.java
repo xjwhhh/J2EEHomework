@@ -80,7 +80,7 @@ public class ShowOrder extends HttpServlet {
 
         HttpSession session = req.getSession(false);
         boolean cookieFound = false;
-        System.out.println("user.account : "+req.getParameter("account"));
+        System.out.println("user.account : " + req.getParameter("account"));
         Cookie cookie = null;
         Cookie[] cookies = req.getCookies();
         if (null != cookies) {
@@ -95,24 +95,25 @@ public class ShowOrder extends HttpServlet {
             }
         }
 
-        ServletContext context=getServletContext();
-        int allCounter=Integer.parseInt(String.valueOf(context.getAttribute("allCounter")));
-        int visitorCounter=Integer.parseInt(String.valueOf(context.getAttribute("visitorCounter")));
-        int loginCounter=Integer.parseInt(String.valueOf(context.getAttribute("loginCounter")));
+        ServletContext context = getServletContext();
+        int allCounter = Integer.parseInt(String.valueOf(context.getAttribute("allCounter")));
+        int visitorCounter = Integer.parseInt(String.valueOf(context.getAttribute("visitorCounter")));
+        int loginCounter = Integer.parseInt(String.valueOf(context.getAttribute("loginCounter")));
 
-        if (session == null) {
+//        if (session == null) {
+        if (String.valueOf(session.getAttribute("isShowReload")).equals("false")) {
 //            System.out.println("234567890-");
             String account = req.getParameter("account");
             String password = req.getParameter("password");
             boolean isLoginAction = (null == account) ? false : true;
-            int userId=-1;
-            if ((userId=checkLogin(account, password))!=-1) {
+            int userId = -1;
+            if ((userId = checkLogin(account, password)) != -1) {
                 if (isLoginAction) { // User is logging in
 
                     visitorCounter--;
                     loginCounter++;
-                    context.setAttribute("visitorCounter",Integer.toString(visitorCounter));
-                    context.setAttribute("loginCounter",Integer.toString(loginCounter));
+                    context.setAttribute("visitorCounter", Integer.toString(visitorCounter));
+                    context.setAttribute("loginCounter", Integer.toString(loginCounter));
 
                     if (cookieFound) { // If the cookie exists update the value only
                         // if changed
@@ -129,20 +130,16 @@ public class ShowOrder extends HttpServlet {
                     }
 
                     // create a session to show that we are logged in
-                    session = req.getSession(true);
+//                    session = req.getSession(true);
                     session.setAttribute("account", account);
 
                     req.setAttribute("account", account);
-                    session.setAttribute("userId",userId);
-                    req.setAttribute("userId",userId);
+                    session.setAttribute("userId", userId);
+                    req.setAttribute("userId", userId);
                     getOrderList(req, resp);
-//                    System.out.println(1);
                     displayMyOrderListPage(req, resp);
-//                    System.out.println(2);
-                    displayCounterPage(req,resp);
-//                    System.out.println(3);
+                    displayCounterPage(req, resp);
                     displayLogoutPage(req, resp);
-//                    System.out.println(4);
 
                 } else {
                     System.out.println(account + " session null");
@@ -159,20 +156,21 @@ public class ShowOrder extends HttpServlet {
                 out.println("<input type='submit' name='reLogin' value='reLogin'>");
                 out.println("</form>");
                 out.println("<p>Servlet is version @version@</p>");
-                displayCounterPage(req,resp);
+                displayCounterPage(req, resp);
                 out.println("</body></html>");
             }
+            session.setAttribute("isShowReload", "true");
         } else {
             // 或未注销，重新加载该页面，session不为空
             String account = (String) session.getAttribute("account");
-            String userId=String.valueOf(session.getAttribute("userId"));
+            String userId = String.valueOf(session.getAttribute("userId"));
             System.out.println("reload the page");
 
             req.setAttribute("account", account);
-            req.setAttribute("userId",userId);
+            req.setAttribute("userId", userId);
             getOrderList(req, resp);
             displayMyOrderListPage(req, resp);
-            displayCounterPage(req,resp);
+            displayCounterPage(req, resp);
             displayLogoutPage(req, resp);
 
         }
@@ -181,18 +179,18 @@ public class ShowOrder extends HttpServlet {
 
     //检验账号密码是否匹配，若匹配返回userId，否则返回-1
     private int checkLogin(String account, String password) {
-        int result=-1;
+        int result = -1;
         PreparedStatement stmt = null;
         ResultSet resultSet = null;
 
         try {
-            con=datasource.getConnection();
+            con = datasource.getConnection();
             stmt = con.prepareStatement("select id from user where account = ? and password=?");
             stmt.setString(1, account);
             stmt.setString(2, password);
             resultSet = stmt.executeQuery();
             while (resultSet.next()) {
-                result=resultSet.getInt("id");
+                result = resultSet.getInt("id");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -211,7 +209,7 @@ public class ShowOrder extends HttpServlet {
         int supplyNumber = 0;
 
         try {
-            con=datasource.getConnection();
+            con = datasource.getConnection();
             stmt = con.prepareStatement("select number from supplyInfo where goodsId = ?");
             stmt.setString(1, String.valueOf(record.getGoodsId()));
             result = stmt.executeQuery();
@@ -232,8 +230,8 @@ public class ShowOrder extends HttpServlet {
         Statement sm = null;
 
         try {
-            con=datasource.getConnection();
-            System.out.println("userId:"+req.getAttribute("userId"));
+            con = datasource.getConnection();
+            System.out.println("userId:" + req.getAttribute("userId"));
             stmt = con.prepareStatement("select id,orderTime from myOrder where userId = ?");
             System.out.println("test");
             stmt.setString(1, String.valueOf(req.getAttribute("userId")));
@@ -244,21 +242,15 @@ public class ShowOrder extends HttpServlet {
                 order.setOrderTime(result.getString("orderTime"));
                 list.add(order);
             }
-//            System.out.println("list done");
             System.out.println(list.size());
             for (int i = 0; i < list.size(); i++) {
-//                System.out.println("tyui");
 //                Connection connection=datasource.getConnection();
                 Order order = list.get(i);
-//                System.out.println("tyui1");
                 stmt = con.prepareStatement("select goodsId,name,price,number from orderInfo where orderId = ?");
                 stmt.setString(1, String.valueOf(order.getId()));
-//                System.out.println("tyui2");
                 result = stmt.executeQuery();
                 ArrayList<OrderRecord> records = new ArrayList<>();
-//                System.out.println("tyui3");
                 while (result.next()) {
-//                    System.out.println("tyui4");
                     OrderRecord record = new OrderRecord();
                     record.setGoodsId(result.getInt("goodsId"));
                     record.setName(result.getString("name"));
@@ -267,10 +259,8 @@ public class ShowOrder extends HttpServlet {
                     record.setShortSupply(checkOrder(record));
                     records.add(record);
                 }
-//                System.out.println("records done");
                 order.setRecords(records);
                 list.set(i, order);
-//                connection.close();
             }
         } catch (SQLException e) {
             // TODO Auto-generated catch block
@@ -281,20 +271,19 @@ public class ShowOrder extends HttpServlet {
 
     }
 
-    public void displayCounterPage(HttpServletRequest req,HttpServletResponse res) throws IOException{
+    public void displayCounterPage(HttpServletRequest req, HttpServletResponse res) throws IOException {
         PrintWriter out = res.getWriter();
-        ServletContext context=getServletContext();
-        int allCounter=Integer.parseInt(String.valueOf(context.getAttribute("allCounter")));
-        int visitorCounter=Integer.parseInt(String.valueOf(context.getAttribute("visitorCounter")));
-        int loginCounter=Integer.parseInt(String.valueOf(context.getAttribute("loginCounter")));
-        out.println("<p>总访问数："+allCounter+"</p>");
-        out.println("<p>登录访问数："+loginCounter+"</p>");
-        out.println("<p>游客访问数："+visitorCounter+"</p>");
+        ServletContext context = getServletContext();
+        int allCounter = Integer.parseInt(String.valueOf(context.getAttribute("allCounter")));
+        int visitorCounter = Integer.parseInt(String.valueOf(context.getAttribute("visitorCounter")));
+        int loginCounter = Integer.parseInt(String.valueOf(context.getAttribute("loginCounter")));
+        out.println("<p>总访问数：" + allCounter + "</p>");
+        out.println("<p>登录访问数：" + loginCounter + "</p>");
+        out.println("<p>游客访问数：" + visitorCounter + "</p>");
     }
 
     public void displayLogoutPage(HttpServletRequest req, HttpServletResponse res) throws IOException {
         PrintWriter out = res.getWriter();
-
 
         // 注销Logout
         out.println("<form method='GET' action='" + res.encodeURL(req.getContextPath() + "/login") + "'>");

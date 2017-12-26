@@ -16,14 +16,14 @@ public class CodingStyleFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        if(servletRequest instanceof HttpServletRequest && servletResponse instanceof HttpServletResponse){
+        if (servletRequest instanceof HttpServletRequest && servletResponse instanceof HttpServletResponse) {
 //            HttpServletRequest request=(HttpServletRequest) servletRequest;
 //            HttpServletResponse response=(HttpServletResponse) servletResponse;
             servletRequest.setCharacterEncoding("UTF-8");
 //            request.setCharacterEncoding("UTF-8");
             System.out.println("filterDone");
         }
-        filterChain.doFilter(servletRequest,servletResponse);
+        filterChain.doFilter(servletRequest, servletResponse);
     }
 
     @Override
