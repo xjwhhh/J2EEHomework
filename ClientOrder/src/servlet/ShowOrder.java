@@ -100,9 +100,7 @@ public class ShowOrder extends HttpServlet {
         int visitorCounter = Integer.parseInt(String.valueOf(context.getAttribute("visitorCounter")));
         int loginCounter = Integer.parseInt(String.valueOf(context.getAttribute("loginCounter")));
 
-//        if (session == null) {
         if (String.valueOf(session.getAttribute("isShowReload")).equals("false")) {
-//            System.out.println("234567890-");
             String account = req.getParameter("account");
             String password = req.getParameter("password");
             boolean isLoginAction = (null == account) ? false : true;
@@ -201,11 +199,8 @@ public class ShowOrder extends HttpServlet {
 
     //检验是否有货
     private boolean checkOrder(OrderRecord record) {
-        boolean isShortSupply = true;
         PreparedStatement stmt = null;
         ResultSet result = null;
-        ArrayList<Order> list = new ArrayList<>();
-        Statement sm = null;
         int supplyNumber = 0;
 
         try {
@@ -244,7 +239,6 @@ public class ShowOrder extends HttpServlet {
             }
             System.out.println(list.size());
             for (int i = 0; i < list.size(); i++) {
-//                Connection connection=datasource.getConnection();
                 Order order = list.get(i);
                 stmt = con.prepareStatement("select goodsId,name,price,number from orderInfo where orderId = ?");
                 stmt.setString(1, String.valueOf(order.getId()));
