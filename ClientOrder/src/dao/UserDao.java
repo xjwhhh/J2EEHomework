@@ -4,6 +4,6 @@ import entity.ResultMessage;
 
 public interface UserDao {
 
-   ResultMessage login(int account, int password);
+   int login(String account, String password);
 
 }

@@ -25,21 +25,22 @@ public class UserDaoImpl implements UserDao {
 
 
     @Override
-    public ResultMessage login(int account, int password) {
+    public int  login(String account, String password) {
         Connection con = daoHelper.getConnection();
         PreparedStatement stmt = null;
         ResultSet result = null;
+        int userId=-1;
         try {
             stmt = con.prepareStatement("select id from user where account = ? and password=?");
-            stmt.setString(1, String.valueOf(account));
-            stmt.setString(2, String.valueOf(password));
+            stmt.setString(1, account);
+            stmt.setString(2, password);
             result = stmt.executeQuery();
             while (result.next()) {
-                return ResultMessage.SUCCESS;
+               userId=result.getInt("id");
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return ResultMessage.FAIL;
+        return userId;
     }
 }

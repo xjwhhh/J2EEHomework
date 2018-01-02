@@ -29,7 +29,7 @@ public class DaoHelperImpl implements DaoHelper
 
 		try {
 			jndiContext = new InitialContext(properties);
-			datasource = (DataSource) jndiContext.lookup("java:comp/env/jdbc/onlinestock");
+			datasource = (DataSource) jndiContext.lookup("java:comp/env/jdbc/j2eeHomework");
 		} catch (NamingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
