@@ -102,6 +102,7 @@ public class ShowOrder extends HttpServlet {
         int loginCounter = Integer.parseInt(String.valueOf(context.getAttribute("loginCounter")));
 
         if (String.valueOf(session.getAttribute("isShowReload")).equals("false")) {
+            System.out.println("aaaaa");
             String account = req.getParameter("account");
             String password = req.getParameter("password");
             boolean isLoginAction = (null == account) ? false : true;
@@ -160,6 +161,7 @@ public class ShowOrder extends HttpServlet {
             }
             session.setAttribute("isShowReload", "true");
         } else {
+            System.out.println("bbbb");
             // 或未注销，重新加载该页面，session不为空
             String account = (String) session.getAttribute("account");
             String userId = String.valueOf(session.getAttribute("userId"));

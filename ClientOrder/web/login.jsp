@@ -80,13 +80,13 @@
     refreshCounter();
 
     //普通登录
-    if (!paraMap.containsKey("reLogin")) {
-        System.out.println("普通登录");
+//    if (!paraMap.containsKey("reLogin")) {
+//        System.out.println("普通登录");
         session = request.getSession(true);
         session.setAttribute("isShowReload", "false");
 
         System.out.println("Login");
-    }
+//    }
 
     refreshCounter();
 

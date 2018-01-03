@@ -15,7 +15,6 @@ import java.util.ArrayList;
 
 public class JspShowOrder extends HttpServlet {
 
-
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
@@ -98,16 +97,19 @@ public class JspShowOrder extends HttpServlet {
                 }
             } else {
 
-                PrintWriter out = resp.getWriter();
-                // 用户名密码错误，重新登录
-                out.println("Sorry, your account or password is wrong, please try to login again");
-                out.println("<form method='GET' action='" + resp.encodeURL(req.getContextPath() + "/login") + "'>");
-                out.println("</p>");
-                out.println("<input type='submit' name='reLogin' value='reLogin'>");
-                out.println("</form>");
-                out.println("<p>Servlet is version @version@</p>");
-//                displayCounterPage(req, resp);
-                out.println("</body></html>");
+//                PrintWriter out = resp.getWriter();
+//                // 用户名密码错误，重新登录
+//                out.println("Sorry, your account or password is wrong, please try to login again");
+//                out.println("<form method='GET' action='" + resp.encodeURL(req.getContextPath() + "/login") + "'>");
+//                out.println("</p>");
+//                out.println("<input type='submit' name='reLogin' value='reLogin'>");
+//                out.println("</form>");
+//                out.println("<p>Servlet is version @version@</p>");
+////                displayCounterPage(req, resp);
+//                out.println("</body></html>");
+
+                resp.sendRedirect(req.getContextPath() + "/reLogin.jsp");
+
             }
             session.setAttribute("isShowReload", "true");
         } else {
@@ -128,34 +130,26 @@ public class JspShowOrder extends HttpServlet {
     }
 
     private int checkLogin(String account, String password) {
-        return ServiceFactory.getUserManageService().login(account,password);
+        return ServiceFactory.getUserManageService().login(account, password);
 
     }
 
-    private void getOrderList(HttpServletRequest req, HttpServletResponse res){
-        int userId=Integer.valueOf(String.valueOf(req.getAttribute("userId")));
-        ArrayList<Order> list=ServiceFactory.getOrderManageService().getOrderList(userId);
-        OrderList orderList=new OrderList(list);
-//        for(int i=0;i<list.size();i++){
-//            Order order=list.get(i);
-//            System.out.println(order.getRecords());
-//            System.out.println(order.getId());
-//        }
-//        req.setAttribute("orderList", orderList);
-        HttpSession session=req.getSession();
+    private void getOrderList(HttpServletRequest req, HttpServletResponse res) {
+        int userId = Integer.valueOf(String.valueOf(req.getAttribute("userId")));
+        ArrayList<Order> list = ServiceFactory.getOrderManageService().getOrderList(userId);
+        OrderList orderList = new OrderList(list);
+        HttpSession session = req.getSession();
         session.setAttribute("orderList", orderList);
         ServletContext context = getServletContext();
         try {
             context.getRequestDispatcher("/showOrderList.jsp").forward(
                     req, res);
-        }catch(IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
-        }catch (ServletException e){
+        } catch (ServletException e) {
             e.printStackTrace();
         }
 
     }
-
-
 
 }
