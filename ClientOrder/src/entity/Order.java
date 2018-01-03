@@ -1,18 +1,19 @@
 package entity;
 
-import java.io.Serializable;
-import java.util.ArrayList;
 
-public class Order implements Serializable {
+
+public class Order{
     private int id;
     private String orderTime;
-    private ArrayList<OrderRecord> records;
+    private OrderRecordList records;
 
-    public ArrayList<OrderRecord> getRecords() {
+    public Order(){}
+
+    public OrderRecordList getRecords() {
         return records;
     }
 
-    public void setRecords(ArrayList<OrderRecord> records) {
+    public void setRecords(OrderRecordList records) {
         this.records = records;
     }
 

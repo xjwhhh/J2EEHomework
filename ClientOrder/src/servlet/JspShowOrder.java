@@ -136,7 +136,24 @@ public class JspShowOrder extends HttpServlet {
         int userId=Integer.valueOf(String.valueOf(req.getAttribute("userId")));
         ArrayList<Order> list=ServiceFactory.getOrderManageService().getOrderList(userId);
         OrderList orderList=new OrderList(list);
-        req.setAttribute("orderList", orderList);
+//        for(int i=0;i<list.size();i++){
+//            Order order=list.get(i);
+//            System.out.println(order.getRecords());
+//            System.out.println(order.getId());
+//        }
+//        req.setAttribute("orderList", orderList);
+        HttpSession session=req.getSession();
+        session.setAttribute("orderList", orderList);
+        ServletContext context = getServletContext();
+        try {
+            context.getRequestDispatcher("/showOrderList.jsp").forward(
+                    req, res);
+        }catch(IOException e){
+            e.printStackTrace();
+        }catch (ServletException e){
+            e.printStackTrace();
+        }
+
     }
 
 

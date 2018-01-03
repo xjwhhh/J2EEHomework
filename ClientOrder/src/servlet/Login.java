@@ -78,7 +78,7 @@ public class Login extends HttpServlet {
 
         out.println(
                 "<form method='POST' action='"
-                        + response.encodeURL(request.getContextPath() + "/showOrder")
+                        + response.encodeURL(request.getContextPath() + "/jspShowOrder")
                         + "'>");
         out.println(
                 "account: <input type='text' name='account' value='" + login + "'>");

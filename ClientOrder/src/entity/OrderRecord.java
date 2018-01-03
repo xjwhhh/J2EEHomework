@@ -7,6 +7,8 @@ public class OrderRecord {
     private double price;
     private boolean isShortSupply;
 
+    public OrderRecord(){}
+
     public int getGoodsId() {
         return goodsId;
     }

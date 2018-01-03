@@ -6,6 +6,8 @@ public class OrderList {
 
     private ArrayList<Order> orderList;
 
+    public OrderList(){}
+
     public OrderList(ArrayList<Order> orderList){
         this.orderList=orderList;
     }

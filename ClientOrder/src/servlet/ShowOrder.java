@@ -2,6 +2,7 @@ package servlet;
 
 import entity.Order;
 import entity.OrderRecord;
+import entity.OrderRecordList;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -253,7 +254,8 @@ public class ShowOrder extends HttpServlet {
                     record.setShortSupply(checkOrder(record));
                     records.add(record);
                 }
-                order.setRecords(records);
+                OrderRecordList orderRecordList=new OrderRecordList(records);
+                order.setRecords(orderRecordList);
                 list.set(i, order);
             }
         } catch (SQLException e) {
@@ -306,9 +308,9 @@ public class ShowOrder extends HttpServlet {
 
         for (int i = 0; i < list.size(); i++) {
             Order order = (Order) list.get(i);
-            ArrayList<OrderRecord> orderRecords = order.getRecords();
-            for (int j = 0; j < orderRecords.size(); j++) {
-                OrderRecord record = orderRecords.get(j);
+            OrderRecordList orderRecords = order.getRecords();
+            for (int j = 0; j < orderRecords.getOrderRecordList().size(); j++) {
+                OrderRecord record = orderRecords.getOrderRecordList().get(j);
                 out.print("orderId:" + order.getId() + "\tname:" + record.getName() + "\tprice:" + record.getPrice() + "\tnumber:" + record.getNumber());
                 if (record.isShortSupply()) {
                     out.println("\t缺货");

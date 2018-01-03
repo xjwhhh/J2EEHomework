@@ -4,6 +4,7 @@ import dao.DaoHelper;
 import dao.OrderDao;
 import entity.Order;
 import entity.OrderRecord;
+import entity.OrderRecordList;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -75,7 +76,8 @@ public class OrderDaoImpl implements OrderDao {
                     record.setShortSupply(checkOrder(record));
                     records.add(record);
                 }
-                order.setRecords(records);
+                OrderRecordList orderRecordList=new OrderRecordList(records);
+                order.setRecords(orderRecordList);
                 orderList.set(i, order);
             }
         } catch (SQLException e) {
