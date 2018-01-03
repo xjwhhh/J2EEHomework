@@ -76,7 +76,7 @@ public class OrderDaoImpl implements OrderDao {
                     record.setShortSupply(checkOrder(record));
                     records.add(record);
                 }
-                OrderRecordList orderRecordList=new OrderRecordList(records);
+                OrderRecordList orderRecordList = new OrderRecordList(records);
                 order.setRecords(orderRecordList);
                 orderList.set(i, order);
             }

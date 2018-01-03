@@ -94,7 +94,7 @@
 %>
 
 <form method="post" action="<%=response.encodeURL(request.getContextPath() + "/jspShowOrder")%>">
-    account:<input type="text" name="account" value="">
+    account:<input type="text" name="account" value="<%=login%>">
     password:<input type="password" name="password" value="">
     <input type="submit" name="submit" value="submit">
 </form>

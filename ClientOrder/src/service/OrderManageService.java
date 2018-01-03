@@ -8,5 +8,4 @@ public interface OrderManageService {
 
     public ArrayList<Order> getOrderList(int userId);
 
-
 }

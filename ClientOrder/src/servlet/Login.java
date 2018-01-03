@@ -64,10 +64,10 @@ public class Login extends HttpServlet {
         //普通登录
 //        if (!paraMap.containsKey("reLogin")) {
 //            System.out.println("普通登录");
-            session = request.getSession(true);
-            session.setAttribute("isShowReload", "false");
+        session = request.getSession(true);
+        session.setAttribute("isShowReload", "false");
 
-            System.out.println("Login");
+        System.out.println("Login");
 //        }
 
         refreshCounter();

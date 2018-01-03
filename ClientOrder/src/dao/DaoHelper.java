@@ -8,12 +8,9 @@ public interface DaoHelper {
 
     Connection getConnection();
 
-
     void closeConnection(Connection con);
 
-
     void closePreparedStatement(PreparedStatement stmt);
-
 
     void closeResult(ResultSet result);
 }

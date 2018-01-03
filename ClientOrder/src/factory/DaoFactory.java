@@ -7,14 +7,12 @@ import dao.impl.UserDaoImpl;
 
 public class DaoFactory {
 
-	public static OrderDao getOrderDao()
-	{
-		return OrderDaoImpl.getInstance();
-	}
-
-	public static UserDao getUserDao(){
-	    return UserDaoImpl.getInstance();
+    public static OrderDao getOrderDao() {
+        return OrderDaoImpl.getInstance();
     }
-	
+
+    public static UserDao getUserDao() {
+        return UserDaoImpl.getInstance();
+    }
 
 }

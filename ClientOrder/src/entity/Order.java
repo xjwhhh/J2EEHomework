@@ -1,13 +1,12 @@
 package entity;
 
-
-
-public class Order{
+public class Order {
     private int id;
     private String orderTime;
     private OrderRecordList records;
 
-    public Order(){}
+    public Order() {
+    }
 
     public OrderRecordList getRecords() {
         return records;

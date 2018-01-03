@@ -11,13 +11,13 @@ public class OrderManageServiceImpl implements OrderManageService {
 
     private static OrderManageService orderService = new OrderManageServiceImpl();
 
-    public static  OrderManageService getInstance() {
+    public static OrderManageService getInstance() {
         return orderService;
     }
 
     @Override
     public ArrayList<Order> getOrderList(int userId) {
-        OrderDao orderDao= DaoFactory.getOrderDao();
+        OrderDao orderDao = DaoFactory.getOrderDao();
         return orderDao.getOrderListByUserId(userId);
     }
 }

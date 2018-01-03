@@ -107,7 +107,7 @@
 <p>游客访问数：<%=application.getAttribute("visitorCounter")%>
 </p>
 
-<form method="GET" action="<%=response.encodeURL(request.getContextPath() + "/login")%>">
+<form method="GET" action="<%=response.encodeURL(request.getContextPath() + "/login.jsp")%>">
     </p>
     <input type="submit" name="Logout" value="Logout">
 </form>

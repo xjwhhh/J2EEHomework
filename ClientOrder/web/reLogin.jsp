@@ -14,7 +14,7 @@
 
 Sorry, your account or password is wrong, please reLogin
 
-<form method="GET" action="<%=response.encodeURL(request.getContextPath() + "/login")%>">
+<form method="GET" action="<%=response.encodeURL(request.getContextPath() + "/login.jsp")%>">
     </p>
     <input type="submit" name="reLogin" value="reLogin">
 </form>

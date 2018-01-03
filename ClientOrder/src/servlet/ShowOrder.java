@@ -256,7 +256,7 @@ public class ShowOrder extends HttpServlet {
                     record.setShortSupply(checkOrder(record));
                     records.add(record);
                 }
-                OrderRecordList orderRecordList=new OrderRecordList(records);
+                OrderRecordList orderRecordList = new OrderRecordList(records);
                 order.setRecords(orderRecordList);
                 list.set(i, order);
             }

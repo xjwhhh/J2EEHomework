@@ -9,7 +9,7 @@ public class UserManageServiceImpl implements UserManageService {
 
     private static UserManageService userService = new UserManageServiceImpl();
 
-    public static  UserManageService getInstance() {
+    public static UserManageService getInstance() {
         return userService;
     }
 
