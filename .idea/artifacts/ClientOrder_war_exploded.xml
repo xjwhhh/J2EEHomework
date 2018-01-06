@@ -2,15 +2,15 @@
   <artifact type="exploded-war" name="ClientOrder:war exploded">
     <output-path>$PROJECT_DIR$/out/artifacts/ClientOrder_war_exploded</output-path>
     <root id="root">
-      <element id="javaee-facet-resources" facet="ClientOrder/web/Web" />
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
           <element id="module-output" name="ClientOrder" />
         </element>
         <element id="directory" name="lib">
-          <element id="library" level="project" name="mysql-connector-java-5.1.45-bin" />
+          <element id="file-copy" path="C:/Apache Software Foundation/Tomcat 9.0/lib/mysql-connector-java-5.1.45-bin.jar" />
         </element>
       </element>
+      <element id="javaee-facet-resources" facet="ClientOrder/web/Web" />
     </root>
   </artifact>
 </component>
