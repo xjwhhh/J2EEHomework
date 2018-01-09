@@ -2,6 +2,9 @@ package servlet;
 
 import entity.Order;
 import entity.OrderList;
+import factory.EJBFactory;
+import service.OrderManageService;
+import service.UserManageService;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -125,14 +128,19 @@ public class JspShowOrder extends HttpServlet {
     }
 
     private int checkLogin(String account, String password) {
-//        return ServiceFactory.getUserManageService().login(account, password);
-return 1;
+
+        UserManageService userManageService=(UserManageService) EJBFactory.getEJB("UserManageServiceImpl","service.UserManageService");
+
+        return userManageService.login(account, password);
     }
 
     private void getOrderList(HttpServletRequest req, HttpServletResponse res) {
         int userId = Integer.valueOf(String.valueOf(req.getAttribute("userId")));
-//        ArrayList<Order> list = ServiceFactory.getOrderManageService().getOrderList(userId);
-        ArrayList<Order> list=new ArrayList<>();
+
+        OrderManageService orderManageService=(OrderManageService)EJBFactory.getEJB("OrderManageServiceImpl","service.OrderManageService");
+
+        ArrayList<Order> list = orderManageService.getOrderList(userId);
+//        ArrayList<Order> list=new ArrayList<>();
         OrderList orderList = new OrderList(list);
         HttpSession session = req.getSession();
         session.setAttribute("orderList", orderList);
