@@ -253,11 +253,11 @@ public class ShowOrder extends HttpServlet {
                     record.setName(result.getString("name"));
                     record.setNumber(result.getInt("number"));
                     record.setPrice(result.getDouble("price"));
-                    record.setShortSupply(checkOrder(record));
+                    record.setSupply(result.getInt("supply"));
                     records.add(record);
                 }
-                OrderRecordList orderRecordList = new OrderRecordList(records);
-                order.setRecords(orderRecordList);
+//                OrderRecordList orderRecordList = new OrderRecordList(records);
+                order.setRecords(records);
                 list.set(i, order);
             }
         } catch (SQLException e) {
@@ -310,11 +310,11 @@ public class ShowOrder extends HttpServlet {
 
         for (int i = 0; i < list.size(); i++) {
             Order order = (Order) list.get(i);
-            OrderRecordList orderRecords = order.getRecords();
-            for (int j = 0; j < orderRecords.getOrderRecordList().size(); j++) {
-                OrderRecord record = orderRecords.getOrderRecordList().get(j);
+//            OrderRecordList orderRecords = order.getRecords();
+            for (int j = 0; j < order.getRecords().size(); j++) {
+                OrderRecord record = order.getRecords().get(j);
                 out.print("orderId:" + order.getId() + "\tname:" + record.getName() + "\tprice:" + record.getPrice() + "\tnumber:" + record.getNumber());
-                if (record.isShortSupply()) {
+                if (record.getSupply()==0) {
                     out.println("\t缺货");
                 } else {
                     out.println("\t足货");

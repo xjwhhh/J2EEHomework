@@ -31,9 +31,9 @@
         visitorCounter = Integer.parseInt(String.valueOf(context.getAttribute("visitorCounter")));
         loginCounter = Integer.parseInt(String.valueOf(context.getAttribute("loginCounter")));
 
-        System.out.println("allCounter:" + allCounter);
-        System.out.println("loginCounter:" + loginCounter);
-        System.out.println("visitorCounter:" + visitorCounter);
+//        System.out.println("allCounter:" + allCounter);
+//        System.out.println("loginCounter:" + loginCounter);
+//        System.out.println("visitorCounter:" + visitorCounter);
     }
 %>
 

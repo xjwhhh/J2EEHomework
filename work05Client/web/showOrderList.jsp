@@ -1,5 +1,6 @@
 <%@ page import="com.sun.org.apache.xpath.internal.operations.Or" %>
 <%@ page import="entity.*" %>
+<%@ page import="java.util.List" %>
 <%--
   Created by IntelliJ IDEA.
   User: xjwhhh
@@ -43,13 +44,12 @@
             for (int i = 0; i < orderList.getOrderList().size(); i++) {
 //                pageContext.setAttribute("order", orderList.getOrder(i));
                 Order order = orderList.getOrder(i);
-                OrderRecordList orderRecordList = order.getRecords();
+                List<OrderRecord> orderRecordList = order.getRecords();
 
-                if (orderRecordList.getOrderRecordList() != null) {
-                    for (int j = 0; j < orderRecordList.getOrderRecordList().size(); j++) {
+                    for (int j = 0; j < orderRecordList.size(); j++) {
 //               pageContext.setAttribute("orderRecord",orderRecordList.getOrderRecordList().get(j));
 //                System.out.println(orderRecordList.getOrderRecord(j).getGoodsId());
-                        OrderRecord orderRecord = orderRecordList.getOrderRecord(j);
+                        OrderRecord orderRecord = orderRecordList.get(j);
 
         %>
 
@@ -79,7 +79,7 @@
             <td align="center"><%=orderRecord.getPrice()%>
             </td>
             <%
-                if(orderRecord.isShortSupply()){
+                if(orderRecord.getSupply()==0){
             %>
             <td align="center">缺货</td>
             <%}
@@ -93,7 +93,6 @@
         </tr>
 
 
-        <%}%>
         <%}%>
         <%}%>
         </TBODY>

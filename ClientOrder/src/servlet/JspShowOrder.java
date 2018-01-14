@@ -57,6 +57,7 @@ public class JspShowOrder extends HttpServlet {
             boolean isLoginAction = (null == account) ? false : true;
             int userId = -1;
             if ((userId = checkLogin(account, password)) != -1) {
+//                System.out.println("2222222222222222222222222222222222");
                 if (isLoginAction) { // User is logging in
 
                     visitorCounter--;
@@ -130,6 +131,7 @@ public class JspShowOrder extends HttpServlet {
     }
 
     private int checkLogin(String account, String password) {
+//        System.out.println("11111111111111111111111111111111");
         return ServiceFactory.getUserManageService().login(account, password);
 
     }

@@ -60,6 +60,7 @@ public class VisitorCounterListener implements ServletContextListener, ServletCo
     }
 
     synchronized void writeCounter(ServletContextAttributeEvent event) {
+//        System.out.println("3333333333333333333333333");
         switch (event.getName()) {
             case "allCounter":
                 writeAllCounter(event);
@@ -195,24 +196,24 @@ public class VisitorCounterListener implements ServletContextListener, ServletCo
     }
 
     private void showCounter() {
-        try {
-            BufferedReader reader1 = new BufferedReader(new FileReader(allCounterFilePath));
-            int allCounter = Integer.parseInt(reader1.readLine());
-            reader1.close();
-            BufferedReader reader2 = new BufferedReader(new FileReader(loginCounterFilePath));
-            int loginCounter = Integer.parseInt(reader2.readLine());
-            reader2.close();
-            BufferedReader reader3 = new BufferedReader(new FileReader(visitorCounterFilePath));
-            int visitorCounter = Integer.parseInt(reader3.readLine());
-            reader3.close();
-            System.out.println("allCounter:" + allCounter);
-            System.out.println("loginCounter:" + loginCounter);
-            System.out.println("visitorCounter:" + visitorCounter);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            BufferedReader reader1 = new BufferedReader(new FileReader(allCounterFilePath));
+//            int allCounter = Integer.parseInt(reader1.readLine());
+//            reader1.close();
+//            BufferedReader reader2 = new BufferedReader(new FileReader(loginCounterFilePath));
+//            int loginCounter = Integer.parseInt(reader2.readLine());
+//            reader2.close();
+//            BufferedReader reader3 = new BufferedReader(new FileReader(visitorCounterFilePath));
+//            int visitorCounter = Integer.parseInt(reader3.readLine());
+//            reader3.close();
+//            System.out.println("allCounter:" + allCounter);
+//            System.out.println("loginCounter:" + loginCounter);
+//            System.out.println("visitorCounter:" + visitorCounter);
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
     }
 }

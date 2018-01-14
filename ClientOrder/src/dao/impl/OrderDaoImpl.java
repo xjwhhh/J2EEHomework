@@ -1,15 +1,15 @@
 package dao.impl;
 
+import dao.BaseDaoImpl;
 import dao.DaoHelper;
 import dao.OrderDao;
 import entity.Order;
 import entity.OrderRecord;
-import entity.OrderRecordList;
 
 import java.sql.*;
 import java.util.ArrayList;
 
-public class OrderDaoImpl implements OrderDao {
+public class OrderDaoImpl extends BaseDaoImpl implements OrderDao {
 
     private static OrderDaoImpl orderDao = new OrderDaoImpl();
     private static DaoHelper daoHelper = DaoHelperImpl.getBaseDaoInstance();
@@ -73,11 +73,10 @@ public class OrderDaoImpl implements OrderDao {
                     record.setName(result.getString("name"));
                     record.setNumber(result.getInt("number"));
                     record.setPrice(result.getDouble("price"));
-                    record.setShortSupply(checkOrder(record));
+                    record.setSupply(result.getInt("supply"));
                     records.add(record);
                 }
-                OrderRecordList orderRecordList = new OrderRecordList(records);
-                order.setRecords(orderRecordList);
+                order.setRecords(records);
                 orderList.set(i, order);
             }
         } catch (SQLException e) {
@@ -104,4 +103,6 @@ public class OrderDaoImpl implements OrderDao {
         }
         return supplyNumber < record.getNumber();
     }
+
+
 }

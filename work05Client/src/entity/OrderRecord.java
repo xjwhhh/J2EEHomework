@@ -1,13 +1,35 @@
 package entity;
 
-public class OrderRecord {
+import java.io.Serializable;
+
+
+public class OrderRecord implements Serializable {
+    private int id;
+    private Order order;
     private int goodsId;
     private String name;
     private int number;
     private double price;
-    private boolean isShortSupply;
+    private int supply;
 
     public OrderRecord() {
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order=order;
     }
 
     public int getGoodsId() {
@@ -42,11 +64,11 @@ public class OrderRecord {
         this.price = price;
     }
 
-    public boolean isShortSupply() {
-        return isShortSupply;
+    public int getSupply() {
+        return supply;
     }
 
-    public void setShortSupply(boolean shortSupply) {
-        isShortSupply = shortSupply;
+    public void setSupply(int supply) {
+        this.supply = supply;
     }
 }

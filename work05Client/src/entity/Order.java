@@ -1,18 +1,21 @@
 package entity;
 
+import java.util.List;
+
 public class Order {
     private int id;
     private String orderTime;
-    private OrderRecordList records;
+    private int userId;
+    private List<OrderRecord> records;
 
     public Order() {
     }
 
-    public OrderRecordList getRecords() {
+    public List<OrderRecord> getRecords() {
         return records;
     }
 
-    public void setRecords(OrderRecordList records) {
+    public void setRecords(List<OrderRecord> records) {
         this.records = records;
     }
 
@@ -22,6 +25,14 @@ public class Order {
 
     public void setOrderTime(String orderTime) {
         this.orderTime = orderTime;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public int getId() {
