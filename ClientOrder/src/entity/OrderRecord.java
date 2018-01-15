@@ -1,8 +1,12 @@
 package entity;
 
+import javax.persistence.*;
 import java.io.Serializable;
 
+@Entity
+@Table(name = "orderinfo")
 public class OrderRecord implements Serializable {
+
     private int id;
     private Order order;
     private int goodsId;
@@ -14,6 +18,7 @@ public class OrderRecord implements Serializable {
     public OrderRecord() {
     }
 
+    @Id
     public int getId() {
         return id;
     }
@@ -22,7 +27,8 @@ public class OrderRecord implements Serializable {
         this.id = id;
     }
 
-
+    @ManyToOne
+    @JoinColumn(name="orderId")
     public Order getOrder() {
         return order;
     }

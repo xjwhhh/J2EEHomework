@@ -1,5 +1,6 @@
 package entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -8,6 +9,7 @@ import javax.persistence.Table;
 @Table(name="user")
 public class User {
     @Id
+    @Column(name="id")
     private int userId;
     private String account;
     private String password;

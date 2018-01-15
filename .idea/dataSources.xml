@@ -1,22 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="jdbc/j2eeHomework" uuid="d349eac6-7d74-45f8-8198-2dbe426a4b12">
-      <driver-ref>mysql</driver-ref>
-      <synchronize>true</synchronize>
-      <imported>true</imported>
-      <remarks>$PROJECT_DIR$/ClientOrder/web/META-INF/context.xml</remarks>
-      <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3306/j2eeHomework?characterEncoding=UTF8&amp;amp;useSSL=false</jdbc-url>
-      <driver-properties>
-        <property name="autoReconnect" value="true" />
-        <property name="zeroDateTimeBehavior" value="convertToNull" />
-        <property name="tinyInt1isBit" value="false" />
-        <property name="characterEncoding" value="utf8" />
-        <property name="characterSetResults" value="utf8" />
-        <property name="yearIsDateType" value="false" />
-      </driver-properties>
-    </data-source>
     <data-source source="LOCAL" name="hibernate.cfg.xml/Hibernate" uuid="aed1b0fd-95f7-4780-907e-e72d1d3b2622">
       <driver-ref>mysql</driver-ref>
       <synchronize>true</synchronize>

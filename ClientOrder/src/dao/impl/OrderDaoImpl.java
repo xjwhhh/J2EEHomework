@@ -5,9 +5,15 @@ import dao.DaoHelper;
 import dao.OrderDao;
 import entity.Order;
 import entity.OrderRecord;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.query.Query;
+import utils.HibernateUtil;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class OrderDaoImpl extends BaseDaoImpl implements OrderDao {
 
@@ -24,31 +30,59 @@ public class OrderDaoImpl extends BaseDaoImpl implements OrderDao {
 
     @Override
     public ArrayList<Order> getOrderListByUserId(int userId) {
-        Connection con = daoHelper.getConnection();
-        PreparedStatement stmt = null;
-        ResultSet result = null;
-        ArrayList<Order> orderList = new ArrayList<>();
+//        Connection con = daoHelper.getConnection();
+//        PreparedStatement stmt = null;
+//        ResultSet result = null;
+//        ArrayList<Order> orderList = new ArrayList<>();
+//        try {
+//            stmt = con.prepareStatement("select id,orderTime from myOrder where userId = ?");
+//            System.out.println("test");
+//            stmt.setString(1, String.valueOf(userId));
+//            result = stmt.executeQuery();
+//            while (result.next()) {
+//                Order order = new Order();
+//                order.setId(result.getInt("id"));
+//                order.setOrderTime(result.getString("orderTime"));
+//                orderList.add(order);
+//            }
+//        } catch (SQLException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        } finally {
+//            daoHelper.closeConnection(con);
+//            daoHelper.closePreparedStatement(stmt);
+//            daoHelper.closeResult(result);
+//        }
+//        orderList = getOrderRecords(orderList);
+//        return orderList;
+        Session session = HibernateUtil.getSession();
+        Transaction tx = null;
+        List OrderList=new ArrayList();
         try {
-            stmt = con.prepareStatement("select id,orderTime from myOrder where userId = ?");
-            System.out.println("test");
-            stmt.setString(1, String.valueOf(userId));
-            result = stmt.executeQuery();
-            while (result.next()) {
-                Order order = new Order();
-                order.setId(result.getInt("id"));
-                order.setOrderTime(result.getString("orderTime"));
-                orderList.add(order);
-            }
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
+            tx = session.beginTransaction();
+            Query query = session.createQuery("select O.id,O.userId,O.orderTime FROM myOrder as O where O.userId=:userId");
+            query.setParameter("userId",userId);
+            OrderList=query.list();
+
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) tx.rollback();
             e.printStackTrace();
         } finally {
-            daoHelper.closeConnection(con);
-            daoHelper.closePreparedStatement(stmt);
-            daoHelper.closeResult(result);
+            session.close();
         }
-        orderList = getOrderRecords(orderList);
-        return orderList;
+        System.out.println("hibernate........................................");
+        System.out.println(OrderList);
+
+        ArrayList<Order> OrderList1=new ArrayList<>();
+
+        for(int i=0;i<OrderList.size();i++){
+            OrderList1.add((Order) OrderList.get(i));
+        }
+
+        return OrderList1;
+
+
     }
 
     @Override
@@ -63,7 +97,7 @@ public class OrderDaoImpl extends BaseDaoImpl implements OrderDao {
         try {
             for (int i = 0; i < orderList.size(); i++) {
                 Order order = orderList.get(i);
-                stmt = con.prepareStatement("select goodsId,name,price,number from orderInfo where orderId = ?");
+                stmt = con.prepareStatement("select goodsId,name,price,number,supply from orderInfo where orderId = ?");
                 stmt.setString(1, String.valueOf(order.getId()));
                 result = stmt.executeQuery();
                 ArrayList<OrderRecord> records = new ArrayList<>();
