@@ -4,6 +4,10 @@ import entity.Order;
 import entity.OrderList;
 import entity.ResultMessage;
 import factory.ServiceFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import service.OrderManageService;
+import service.UserManageService;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -14,6 +18,20 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 
 public class JspShowOrder extends HttpServlet {
+
+    private static ApplicationContext appliationContext;
+
+    private static UserManageService userService;
+
+    private static OrderManageService orderManageService;
+
+    public void init() throws ServletException {
+        super.init();
+        appliationContext=new ClassPathXmlApplicationContext("applicationContext.xml");
+        userService=(UserManageService)appliationContext.getBean("UserManageService");
+        orderManageService=(OrderManageService)appliationContext.getBean("OrderManageService");
+    }
+
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -132,13 +150,13 @@ public class JspShowOrder extends HttpServlet {
 
     private int checkLogin(String account, String password) {
 //        System.out.println("11111111111111111111111111111111");
-        return ServiceFactory.getUserManageService().login(account, password);
+        return userService.login(account, password);
 
     }
 
     private void getOrderList(HttpServletRequest req, HttpServletResponse res) {
         int userId = Integer.valueOf(String.valueOf(req.getAttribute("userId")));
-        ArrayList<Order> list = ServiceFactory.getOrderManageService().getOrderList(userId);
+        ArrayList<Order> list = orderManageService.getOrderList(userId);
         OrderList orderList = new OrderList(list);
         HttpSession session = req.getSession();
         session.setAttribute("orderList", orderList);

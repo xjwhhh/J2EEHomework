@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="hibernate.cfg.xml/Hibernate" uuid="aed1b0fd-95f7-4780-907e-e72d1d3b2622">
+    <data-source source="LOCAL" name="j2eeHomework@localhost" uuid="49f6aa6c-477b-4db8-bac5-0c6c6999a779">
       <driver-ref>mysql</driver-ref>
       <synchronize>true</synchronize>
-      <imported>true</imported>
-      <remarks>$PROJECT_DIR$/ClientOrder/src/hibernate.cfg.xml</remarks>
       <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
       <jdbc-url>jdbc:mysql://localhost:3306/j2eeHomework</jdbc-url>
       <driver-properties>
